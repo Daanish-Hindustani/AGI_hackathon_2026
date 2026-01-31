@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizational Travel Carbon Emissions Network Map</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Dependencies -->
+    <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+    <script src="https://unpkg.com/d3@7/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/papaparse@5/papaparse.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div id="loading-content">
+            <div class="logo-loader">
+                <div class="logo-circle"></div>
+                <div class="logo-pulse"></div>
+            </div>
+            <div id="loading-text">Initializing Dashboard...</div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <span class="progress-bar-fill" id="progress-fill" style="width: 0%"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Visualization Container -->
+    <div id="app-container">
+        <!-- deck.gl Canvas -->
+        <div id="deck-container"></div>
+
+        <!-- Background Gradient Mesh (Optional Visual Flare) -->
+        <div class="bg-gradient-mesh"></div>
+
+        <!-- UI Overlay -->
+        <div class="ui-layer">
+            <!-- Left Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="app-logo">
+                        <span class="logo-icon">C</span>
+                        <span class="logo-text">CARBON<br><span class="logo-subtitle">NET</span></span>
+                    </div>
+                </div>
+
+                <div class="sidebar-content">
+                    <div class="control-group">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="search" id="text-search" placeholder="Search departments, routes..."
+                                autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="group-header">
+                            <span class="group-title">Active Layers</span>
+                        </div>
+                        <div id="filter-content" class="filter-options">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" id="show-departments" checked>
+                                <span class="checkmark"></span>
+                                <span class="label-text">Departments</span>
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" id="show-trips" checked>
+                                <span class="checkmark"></span>
+                                <span class="label-text">Individual Trips</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="group-header">
+                            <span class="group-title">Metrics</span>
+                        </div>
+                        <div id="stats-container" class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Total CO₂</span>
+                                <span class="stat-value" id="total-emissions">--</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Nodes</span>
+                                <span class="stat-value" id="visible-nodes">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <div id="zoom-hint" class="hint-card">
+                        <span class="hint-icon">💡</span>
+                        <span class="hint-text">Zoom in to explore specific trip details</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Top Right Legend -->
+            <div class="legend-panel">
+                <div id="legend-container">
+                    <span class="legend-title">Department Clusters</span>
+                    <div class="legend-items">
+                        <!-- Items injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="dataProcessor.js"></script>
+    <script src="layers.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
